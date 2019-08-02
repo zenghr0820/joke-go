@@ -1,0 +1,3 @@
+2019-08-01 16:51:49	INFO	test/logs_test.go:29	aaaa: 
+2019-08-01 16:53:55	INFO	test/logs_test.go:30	aaaa: 	{"name": "nana"}
+{"level":"INFO","ts":"2019-08-01 18:11:41","file":"test/logs_test.go:30","msg":"aaaa: ","name":"nana"}

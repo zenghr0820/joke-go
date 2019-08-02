@@ -1,0 +1,1 @@
+add_column("joke", "sex", "string", {size: 5, default: "男"})

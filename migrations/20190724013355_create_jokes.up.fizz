@@ -1,0 +1,14 @@
+create_table("joke") {
+	t.Column("id", "string", {primary: true, size: 50})
+	t.Column("type", "string", {size: 50})
+	t.Column("title", "string", {size: 255})
+	t.Column("content", "text", {})
+	t.Column("author_name", "string", {size: 50})
+	t.Column("author_url", "string", {size: 255})
+	t.Column("author_img", "string", {size: 255})
+	t.Column("image_url", "text", {})
+	t.Column("video_url", "string", {size: 255})
+	t.Column("vote", "string", {size: 11})
+	t.Column("time", "timestamp", {})
+	t.DisableTimestamps()
+}

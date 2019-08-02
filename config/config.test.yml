@@ -1,0 +1,15 @@
+# 应用配置
+app:
+  # 应用监听端口
+  port: 8081
+
+# 数据库运行环境
+database:
+  env: test
+  dialect: mysql
+  db: qushi
+  user: root
+  password: zenghr0820
+  host: 127.0.0.1
+  port: 3306
+  showSql: false
