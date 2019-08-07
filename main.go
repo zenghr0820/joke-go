@@ -1,29 +1,36 @@
 package main
 
 import (
+	"joke-go/config"
+	"joke-go/logger"
+	"joke-go/models"
 	"joke-go/router"
-	"joke-go/utils"
 	"net/http"
 )
 
 func main() {
-	// 初始化日志
-	utils.InitLogging()
 	// 初始化配置
-	utils.InitConfig()
+	config.InitConfig()
+	// 初始化日志
+	//logger.SetSugar()
+	logger.InitLog()
 	// 初始化 ORM
-	utils.InitOrm()
-
+	models.InitOrm()
+	// 初始化路由
 	router := router.Init()
 
-	port := utils.GetConfig("app.port")
+	port := config.GetConfig("app.port")
 
-	utils.Log.Info("监听端口：", port)
+	logger.Info("监听端口：", port)
+	logger.Error("监听端口：")
 
 	s := &http.Server{
 		Addr:    ":" + port,
 		Handler: router,
 	}
+
+	println("[JOKE-GO] Starting...")
+	println(" - URL:  	127.0.0.1:", port)
 
 	// 监听服务
 	s.ListenAndServe()

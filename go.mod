@@ -6,7 +6,8 @@ require (
 	bitbucket.org/liamstask/goose v0.0.0-20150115234039-8488cc47d90c // indirect
 	cloud.google.com/go v0.43.0 // indirect
 	github.com/0xAX/notificator v0.0.0-20181105090803-d81462e38c21 // indirect
-	github.com/cockroachdb/cockroach-go v0.0.0-20181001143604-e0a95dfd547c // indirect
+	github.com/chalvern/sugar v0.2.0 // indirect
+	github.com/cockroachdb/cockroach-go v0.0.0-20181001143604-e0a95dfd547c
 	github.com/codegangsta/envy v0.0.0-20141216192214-4b78388c8ce4 // indirect
 	github.com/codegangsta/gin v0.0.0-20171026143024-cafe2ce98974 // indirect
 	github.com/coreos/bbolt v1.3.3 // indirect
@@ -31,23 +32,24 @@ require (
 	github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6 // indirect
 	github.com/google/pprof v0.0.0-20190723021845-34ac40c74b70 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.9.5 // indirect
+	github.com/hashicorp/golang-lru v0.5.3 // indirect
 	github.com/jackc/pgx v3.5.0+incompatible // indirect
 	github.com/jinzhu/gorm v1.9.10
-	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/kisielk/errcheck v1.2.0 // indirect
 	github.com/kr/pty v1.1.8 // indirect
 	github.com/kylelemons/go-gypsy v0.0.0-20160905020020-08cad365cd28 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.2.0+incompatible
 	github.com/lestrrat-go/strftime v0.0.0-20190725011945-5c849dd2c51d // indirect
 	github.com/lib/pq v1.2.0 // indirect
+	github.com/liujiarik/goassem v0.0.0-20180202034245-7e5eb50d13f5 // indirect
 	github.com/magiconair/properties v1.8.1 // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-shellwords v1.0.5 // indirect
 	github.com/mattn/go-sqlite3 v1.11.0 // indirect
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/pelletier/go-toml v1.4.0 // indirect
-	github.com/prometheus/common v0.6.0 // indirect
-	github.com/prometheus/procfs v0.0.3 // indirect
+	github.com/pierrre/archivefile v0.0.0-20170218184037-e2d100bc74f5 // indirect
+	github.com/prometheus/client_golang v1.1.0 // indirect
 	github.com/rogpeppe/fastuuid v1.2.0 // indirect
 	github.com/russross/blackfriday v2.0.0+incompatible // indirect
 	github.com/sirupsen/logrus v1.4.2
@@ -60,13 +62,13 @@ require (
 	go.etcd.io/bbolt v1.3.3 // indirect
 	go.uber.org/zap v1.10.0
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
-	golang.org/x/exp v0.0.0-20190718202018-cfdd5522f6f6 // indirect
-	golang.org/x/image v0.0.0-20190703141733-d6a02ce849c9 // indirect
-	golang.org/x/mobile v0.0.0-20190719004257-d2bd2a29d028 // indirect
+	golang.org/x/mobile v0.0.0-20190806162312-597adff16ade // indirect
 	golang.org/x/net v0.0.0-20190724013045-ca1201d0de80 // indirect
-	golang.org/x/sys v0.0.0-20190712062909-fae7ac547cb7 // indirect
-	golang.org/x/tools v0.0.0-20190724185037-8aa4eac1a7c1 // indirect
-	google.golang.org/grpc v1.22.0 // indirect
+	golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa // indirect
+	golang.org/x/tools v0.0.0-20190806215303-88ddfcebc769 // indirect
+	google.golang.org/genproto v0.0.0-20190801165951-fa694d86fc64 // indirect
+	google.golang.org/grpc v1.22.1 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gopkg.in/urfave/cli.v1 v1.20.0 // indirect
+	honnef.co/go/tools v0.0.1-2019.2.2 // indirect
 )

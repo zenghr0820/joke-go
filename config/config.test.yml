@@ -3,8 +3,8 @@ app:
   # 应用监听端口
   port: 8081
 
-# 数据库运行环境
-database:
+# Mysql数据库运行环境
+mysql:
   env: test
   dialect: mysql
   db: qushi
@@ -13,3 +13,15 @@ database:
   host: 127.0.0.1
   port: 3306
   showSql: false
+
+
+# PostgreSQL 数据库运行环境
+pg:
+  env: test
+  dialect: postgres
+  db: qiushi
+  user: postgres
+  password: postgres
+  host: 59.110.167.136
+  port: 5432
+  showSql: true
