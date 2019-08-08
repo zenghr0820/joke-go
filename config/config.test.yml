@@ -1,0 +1,27 @@
+# 应用配置
+app:
+  # 应用监听端口
+  port: 8081
+
+# Mysql数据库运行环境
+mysql:
+  env: test
+  dialect: mysql
+  db: db
+  user: user
+  password: password
+  host: 127.0.0.1
+  port: 3306
+  showSql: false
+
+
+# PostgreSQL 数据库运行环境
+pg:
+  env: test
+  dialect: postgres
+  db: db
+  user: user
+  password: password
+  host: host
+  port: 5432
+  showSql: true

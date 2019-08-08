@@ -1,0 +1,31 @@
+# 应用配置
+app:
+  # 应用监听端口
+  port: 5001
+
+# Mysql数据库运行环境
+mysql:
+  env: production
+  dialect: mysql
+  db: db
+  user: user
+  password: password
+  host: 127.0.0.1
+  port: 3306
+  showSql: false
+
+# PostgreSQL 数据库运行环境
+pg:
+  env: production
+  dialect: postgres
+  db: db
+  user: user
+  password: password
+  host: host
+  port: 5432
+  showSql: true
+
+# 日志文件存放路径
+logger:
+  dir: /server/joke/logs
+  level: INFO

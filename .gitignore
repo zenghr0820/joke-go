@@ -1,5 +1,2 @@
 /logs
 /.idea
-/config/config.test.yml
-/config/config.prod.yml
-/config/config.default.yml
