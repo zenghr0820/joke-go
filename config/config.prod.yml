@@ -7,22 +7,22 @@ app:
 mysql:
   env: production
   dialect: mysql
-  db: qushi
-  user: root
-  password: zenghr0820
+  db: db
+  user: user
+  password: password
   host: 127.0.0.1
   port: 3306
-  showSql: false
+  showSql: true
 
 # PostgreSQL 数据库运行环境
 pg:
   env: production
   dialect: postgres
-  db: qiushi
-  user: postgres
-  password: postgres
+  db: db
+  user: user
+  password: password
   host: 127.0.0.1
-  port: 5432
+  port: 3306
   showSql: true
 
 # 日志文件存放路径
