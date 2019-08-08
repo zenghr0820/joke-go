@@ -1,13 +1,16 @@
 [
   {
-    "name":"joke-go",
-    "version":"1.0.0",
-    "format":"zip",
-    "main":"main",
-    "binDir":"bin",
-    "buildArgs":["-ldflags", "-w -s"],
-    "fileSets":[],
-    "platforms":[
+    "name": "joke-go",
+    "version": "1.0.0",
+    "format": "zip",
+    "main": "main",
+    "binDir": "bin",
+    "buildArgs": [
+      "-ldflags",
+      "-w -s"
+    ],
+    "fileSets": [],
+    "platforms": [
       {
         "arch": "amd64",
         "os": "linux"
@@ -20,6 +23,6 @@
         "arch": "amd64",
         "os": "windows"
       }
-    ],
+    ]
   }
 ]
