@@ -7,7 +7,7 @@ import (
 )
 
 // 检查文件是否存在并且创建文件
-func CheckFileAndCreate(path string)(err error)  {
+func CheckFileAndCreate(path string) (err error) {
 	if _, err := os.Stat(path); err == nil {
 		return nil
 	} else {

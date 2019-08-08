@@ -7,8 +7,8 @@ import (
 )
 
 // 自定义 gin 日志打印输出 --- 中间件
-func GinLogger() gin.HandlerFunc  {
-	return func (c *gin.Context) {
+func GinLogger() gin.HandlerFunc {
+	return func(c *gin.Context) {
 		// 开始时间
 		start := time.Now()
 		// 处理请求

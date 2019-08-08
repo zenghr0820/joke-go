@@ -1,6 +1,5 @@
 package logger
 
-
 // Debug package mainLogger
 func Debug(args ...interface{}) {
 	mainLogger.zapSugar.Debug(args...)

@@ -15,11 +15,12 @@ func Init() *gin.Engine {
 	//r.Use(middleware.GinLogger())
 
 	// 注册路由组
-	r.GET("/joke/Demo", controller.Demo)
-	api := r.Group("/joke/v1.0/api")
+	api := r.Group("/joke/api")
 	{
 		//api.GET("/create", controller.Create)
-		api.GET(":type", controller.Fetch)
+		api.GET("/fetch", controller.Fetch)
+		api.POST("/pull", controller.LoadRefresh)
+		api.GET("/get/:id", controller.FindJokeInfo)
 	}
 
 	return r

@@ -2,12 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"joke-go/logger"
 	"joke-go/models"
+	"math/rand"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -16,6 +14,11 @@ var types = map[string]bool{
 	"pic":   true,
 	"video": true,
 	"hot":   true,
+}
+
+type PostLoadRefresh struct {
+	Time    string   `json:"time" form:"time"`
+	JokeIds []string `json:"joke_ids" form:"joke_ids"`
 }
 
 // 用于获取糗事分类数据
@@ -30,29 +33,28 @@ func Fetch(ctx *gin.Context) {
 		start       int
 	)
 
-	jokeType = ctx.Param("type")
+	jokeType = ctx.Query("type")
 
 	logger.Info("===> 请求参数：", jokeType)
 
 	// 判断type是否属于四种类型中的一种
 	if _, ok := types[jokeType]; !ok {
 		// 不存在
-		logger.Info("===> aaaaa：", jokeType)
 		ctx.JSON(200, gin.H{
-			"code": 40002,
-			"msg":  "Invalid request params!",
+			"code":    40002,
+			"message": "Invalid request params!",
 		})
 		return
 	}
 
 	// 检查是否有分页信息
-	limitS := ctx.Param("limit")
+	limitS := ctx.Query("limit")
 	if limitS != "" {
 		limit, err = strconv.Atoi(limitS)
 		if err != nil {
 			ctx.JSON(200, gin.H{
-				"code": 40002,
-				"msg":  "Invalid request params!",
+				"code":    40002,
+				"message": "Invalid request params!",
 			})
 			return
 		}
@@ -64,13 +66,13 @@ func Fetch(ctx *gin.Context) {
 	}
 
 	// 查看分页
-	currentPageS := ctx.Param("page")
+	currentPageS := ctx.Query("page")
 	if currentPageS != "" {
 		currentPage, err = strconv.Atoi(limitS)
 		if err != nil {
 			ctx.JSON(200, gin.H{
-				"code": 40002,
-				"msg":  "Invalid request params!",
+				"code":    40002,
+				"message": "Invalid request params!",
 			})
 			return
 		}
@@ -90,9 +92,9 @@ func Fetch(ctx *gin.Context) {
 	case "hot":
 		err = models.Orm.Order("time desc").Offset(start).Limit(limit).Find(&jokes).Error
 	case "pic":
-		err = models.Orm.Where("image_url <> ''").Or("video_url <> ''").Offset(start).Limit(limit).Find(&jokes).Error
+		err = models.Orm.Where("image_url <> '' AND video_url = ''").Offset(start).Limit(limit).Find(&jokes).Error
 	case "video":
-		err = models.Orm.Where("video_url <> ''").Or("image_url <> ''").Offset(start).Limit(limit).Find(&jokes).Error
+		err = models.Orm.Where("video_url <> '' AND image_url <> ''").Offset(start).Limit(limit).Find(&jokes).Error
 	case "text":
 		err = models.Orm.Where("image_url = '' AND video_url = ''").Offset(start).Limit(limit).Find(&jokes).Error
 	}
@@ -100,79 +102,128 @@ func Fetch(ctx *gin.Context) {
 	if err != nil {
 		logger.Error(err)
 		ctx.JSON(500, gin.H{
-			"code": 50001,
-			"msg":  "connect error",
+			"code":    50001,
+			"message": "connect error",
 		})
 		return
 	}
 
 	ctx.JSON(200, gin.H{
-		"code": 0,
-		"data": jokes,
-		"msg":  "success",
+		"code":    0,
+		"data":    jokes,
+		"message": "success",
 	})
 }
 
-func Demo(ctx *gin.Context) {
-	// 设置日志级别
-	atomicLevel := zap.NewAtomicLevel()
-	atomicLevel.SetLevel(convertLogLevel("info"))
-
-	ctx.JSON(200, gin.H{
-		"code": 0,
-		"msg":  "success",
-	})
-}
-
-func Create(ctx *gin.Context) {
+// 用于上拉刷新页面
+func LoadRefresh(ctx *gin.Context) {
 
 	var (
-		err  error
-		joke models.Joke
+		err      error
+		jokes    models.Jokes
+		jokeType string
+		limit    int
 	)
 
-	joke.Id = "2018"
-	joke.Type = "hot"
-	joke.Title = "cehsi"
-	joke.Time = time.Now()
+	jokeType = ctx.Query("type")
 
-	err = models.Orm.Create(&joke).Error
+	logger.Info("POST ==> 请求参数：", jokeType)
+
+	// 判断type是否属于四种类型中的一种
+	if _, ok := types[jokeType]; !ok {
+		// 不存在
+		ctx.JSON(200, gin.H{
+			"code":    40002,
+			"message": "Invalid request params!",
+		})
+		return
+	}
+
+	var payload PostLoadRefresh
+	// 获取已在列表的 joke_id 集合、或者最新数据的时间
+	ctx.BindJSON(&payload)
+
+	if len(payload.JokeIds) <= 0 && payload.Time == "" {
+		// 不存在
+		ctx.JSON(200, gin.H{
+			"code":    40002,
+			"message": "Invalid request params!",
+		})
+		return
+	}
+
+	// 获取随机的数目
+
+	rand.Seed(time.Now().UnixNano())
+	limit = rand.Intn(15) + 1
+
+	// 查询数据
+	if payload.Time != "" {
+		switch jokeType {
+		case "hot":
+			err = models.Orm.Where("time > ?", payload.Time).Limit(limit).Find(&jokes).Error
+		case "pic":
+			err = models.Orm.Where("time > ? AND image_url <> '' AND video_url = ''", payload.Time).Limit(limit).Find(&jokes).Error
+		case "video":
+			err = models.Orm.Where("time > ? AND video_url <> '' AND image_url = ''", payload.Time).Limit(limit).Find(&jokes).Error
+		case "text":
+			err = models.Orm.Where("time > ? AND image_url = '' AND video_url = ''", payload.Time).Limit(limit).Find(&jokes).Error
+		}
+	} else {
+		switch jokeType {
+		case "hot":
+			err = models.Orm.Where(payload.JokeIds).Limit(limit).Find(&jokes).Error
+		case "pic":
+			err = models.Orm.Where(payload.JokeIds).Where("image_url <> '' AND video_url = ''").Limit(limit).Find(&jokes).Error
+		case "video":
+			err = models.Orm.Where(payload.JokeIds).Where("video_url <> '' OR image_url = ''").Limit(limit).Find(&jokes).Error
+		case "text":
+			err = models.Orm.Where(payload.JokeIds).Where("image_url = '' AND video_url = ''").Limit(limit).Find(&jokes).Error
+		}
+	}
 
 	if err != nil {
 		logger.Error(err)
 		ctx.JSON(500, gin.H{
-			"code": 50001,
-			"msg":  "connect error",
+			"code":    50001,
+			"message": "connect error",
 		})
 		return
 	}
 
 	ctx.JSON(200, gin.H{
-		"code": 0,
-		"data": joke,
-		"msg":  "success",
+		"code":    0,
+		"data":    jokes,
+		"message": "success",
 	})
-
 }
 
-// 把字符串转换为日志级别（数字）
-func convertLogLevel(levelStr string) zapcore.Level {
-	// 不区分大小写
-	levelStr = strings.ToLower(levelStr)
-	var level zapcore.Level
-	switch levelStr {
-	case "debug":
-		level = zap.DebugLevel
-	case "info":
-		level = zap.InfoLevel
-	case "warn":
-		level = zap.WarnLevel
-	case "error":
-		level = zap.ErrorLevel
-	case "fatal":
-		level = zap.FatalLevel
-	default:
-		level = zap.InfoLevel
+// 获取糗事详情
+func FindJokeInfo(ctx *gin.Context) {
+	var (
+		err  error
+		joke models.Joke
+		id   string
+	)
+
+	id = ctx.Param("id")
+
+	logger.Info("糗事的ID ==> ", id)
+
+	err = models.Orm.Where(&models.Joke{Id: id}).First(&joke).Error
+
+	if err != nil {
+		logger.Error(err)
+		ctx.JSON(200, gin.H{
+			"code":    0,
+			"message": "id not exist!",
+		})
+		return
 	}
-	return level
+
+	ctx.JSON(200, gin.H{
+		"code":    0,
+		"data":    joke,
+		"message": "success",
+	})
 }
