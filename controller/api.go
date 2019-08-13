@@ -94,7 +94,7 @@ func Fetch(ctx *gin.Context) {
 	case "pic":
 		err = models.Orm.Where("image_url <> '' AND video_url = ''").Offset(start).Limit(limit).Find(&jokes).Error
 	case "video":
-		err = models.Orm.Where("video_url <> '' AND image_url <> ''").Offset(start).Limit(limit).Find(&jokes).Error
+		err = models.Orm.Where("video_url <> '' AND image_url = ''").Offset(start).Limit(limit).Find(&jokes).Error
 	case "text":
 		err = models.Orm.Where("image_url = '' AND video_url = ''").Offset(start).Limit(limit).Find(&jokes).Error
 	}
