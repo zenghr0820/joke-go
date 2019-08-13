@@ -52,6 +52,7 @@ func Fetch(ctx *gin.Context) {
 	if limitS != "" {
 		limit, err = strconv.Atoi(limitS)
 		if err != nil {
+			logger.Error(err)
 			ctx.JSON(200, gin.H{
 				"code":    40002,
 				"message": "Invalid request params!",
@@ -68,8 +69,9 @@ func Fetch(ctx *gin.Context) {
 	// 查看分页
 	currentPageS := ctx.Query("page")
 	if currentPageS != "" {
-		currentPage, err = strconv.Atoi(limitS)
+		currentPage, err = strconv.Atoi(currentPageS)
 		if err != nil {
+			logger.Error(err)
 			ctx.JSON(200, gin.H{
 				"code":    40002,
 				"message": "Invalid request params!",
@@ -237,6 +239,7 @@ func Count(ctx *gin.Context) {
 
 	logger.Info(count)
 	if err != nil {
+		logger.Error(err)
 		// 不存在
 		ctx.JSON(200, gin.H{
 			"code":    40002,
