@@ -19,6 +19,7 @@ func Init() *gin.Engine {
 	{
 		//api.GET("/create", controller.Create)
 		api.GET("/fetch", controller.Fetch)
+		api.GET("/count", controller.Count)
 		api.POST("/pull", controller.LoadRefresh)
 		api.GET("/get/:id", controller.FindJokeInfo)
 	}

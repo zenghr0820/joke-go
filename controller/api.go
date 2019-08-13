@@ -227,3 +227,27 @@ func FindJokeInfo(ctx *gin.Context) {
 		"message": "success",
 	})
 }
+
+// 获取糗事数量
+func Count(ctx *gin.Context) {
+
+	var count int
+
+	err := models.Orm.Table("joke").Count(&count).Error
+
+	logger.Info(count)
+	if err != nil {
+		// 不存在
+		ctx.JSON(200, gin.H{
+			"code":    40002,
+			"message": "Invalid request params!",
+		})
+		return
+	}
+
+	ctx.JSON(200, gin.H{
+		"code":  0,
+		"count": count,
+	})
+
+}
